@@ -4,7 +4,8 @@
   "main": "main.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "standard --fix"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,18 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.6.0",
+    "nodemon": "^3.1.4",
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json",
+    "rules": {
+      "import/no-absolute-path": "off"
+    }
   }
 }

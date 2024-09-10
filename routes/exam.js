@@ -75,4 +75,25 @@ router.delete('/delete/:code', (req, res) => {
   res.json({ deleted: code })
 })
 
+router.get('/search-by-title', (req, res) => {
+  const query = req.query.query
+  const examType = req.query.examType
+  console.log('GET /search-by-title - Query:', query, 'Exam Type:', examType)
+
+  if (query === undefined || examType === undefined) {
+    res.status(400).json({ error: 'No se recibió la consulta' })
+    console.error('No se recibió la consulta')
+    return
+  }
+
+  const isExamTypeRequired = examType !== 'both'
+  const filteredQuestions = questionsDummyData.filter((question) => {
+    const isMatchingQuery = question.question.toLowerCase().includes(query.toLowerCase())
+    const isMatchingExamType = !isExamTypeRequired || question.examType === examType
+    return isMatchingQuery && isMatchingExamType
+  })
+
+  res.json(filteredQuestions)
+})
+
 module.exports = router

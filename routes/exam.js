@@ -53,4 +53,26 @@ router.get('/get-all', (req, res) => {
   res.json(questionsDummyData)
 })
 
+// /delete/${code}
+router.delete('/delete/:code', (req, res) => {
+  const code = req.params.code
+  console.log('DELETE /delete - Código recibido:', code)
+
+  if (code === undefined) {
+    res.status(400).json({ error: 'No se recibió el código' })
+    console.error('No se recibió el código')
+    return
+  }
+
+  const index = questionsDummyData.findIndex((question) => question.code === code)
+  if (index === -1) {
+    res.status(400).json({ error: 'No se encontró la pregunta' })
+    console.error('No se encontró la pregunta con el código:', code)
+    return
+  }
+
+  questionsDummyData.splice(index, 1)
+  res.json({ deleted: code })
+})
+
 module.exports = router

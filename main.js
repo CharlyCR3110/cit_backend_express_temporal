@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const examRoutes = require('./routes/exam')
+const questionRoutes = require('./routes/question')
 const configRoutes = require('./routes/config')
 const port = 3000
 
@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // rutas separadas por funcionalidad
-app.use('/api/question', examRoutes)
+app.use('/api/question', questionRoutes)
 app.use('/api/config', configRoutes)
 
 // Manejo de errores 404

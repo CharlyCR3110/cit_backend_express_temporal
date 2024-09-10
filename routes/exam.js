@@ -48,4 +48,9 @@ router.post('/create-question', upload.array('images'), (req, res) => {
   }
 })
 
+router.get('/get-all', (req, res) => {
+  console.log('GET /get-all - Enviando todas las preguntas')
+  res.json(questionsDummyData)
+})
+
 module.exports = router

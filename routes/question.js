@@ -62,6 +62,29 @@ router.get('/get-all', (req, res) => {
   res.json(questionsDummyData)
 })
 
+/* endpoint to retrieve the images */
+router.get('/get-all-images', async (req, res) => {
+  try {
+    const imagesPath = questionsDummyData.map((question) => question.images).flat()
+
+    const images = await Promise.all(imagesPath.map(async (imagePath) => {
+      const fullImagePath = path.join(__dirname, '../uploads', imagePath)
+
+      // Verificar si el archivo existe
+      if (fs.existsSync(fullImagePath)) {
+        const image = await fs.promises.readFile(fullImagePath)
+        return { name: imagePath, image: image.toString('base64') }
+      } else {
+        return { name: imagePath, error: 'Image not found' }
+      }
+    }))
+
+    res.json(images)
+  } catch (error) {
+    res.status(500).json({ error: 'Error retrieving images', details: error.message })
+  }
+})
+
 // /delete/${code}
 router.delete('/delete/:code', (req, res) => {
   const code = req.params.code

@@ -96,4 +96,35 @@ router.get('/search-by-title', (req, res) => {
   res.json(filteredQuestions)
 })
 
+router.get('/search-by-code', (req, res) => {
+  const code = req.query.code
+  const examType = req.query.examType
+  console.log('GET /search-by-code - Code:', code, 'Exam Type:', examType)
+
+  if (code === undefined || examType === undefined) {
+    res.status(400).json({ error: 'No se recibió el código' })
+    console.error('No se recibió el código')
+    return
+  }
+
+  if (code === '') {
+    res.json(questionsDummyData)
+    return
+  }
+
+  const isExamTypeRequired = examType !== 'both'
+  const foundQuestion = questionsDummyData.filter((question) => {
+    const isMatchingCode = question.code === code
+    const isMatchingExamType = !isExamTypeRequired || question.examType === examType
+    return isMatchingCode && isMatchingExamType
+  })
+
+  if (foundQuestion === undefined) {
+    res.status(404).json({ error: 'No se encontró la pregunta' })
+    console.error('No se encontró la pregunta con el código:', code)
+  }
+
+  res.json(foundQuestion)
+})
+
 module.exports = router

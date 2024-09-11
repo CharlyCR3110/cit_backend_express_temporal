@@ -58,8 +58,15 @@ router.post('/create-question', upload.array('images'), (req, res) => {
 })
 
 router.get('/get-all', (req, res) => {
-  console.log('GET /get-all - Enviando todas las preguntas')
-  res.json(questionsDummyData)
+  const responseData = questionsDummyData.map((question) => {
+    return {
+      code: question.code,
+      examType: question.examType,
+      question: question.question
+    }
+  })
+
+  res.json(responseData)
 })
 
 /* endpoint to retrieve the images */

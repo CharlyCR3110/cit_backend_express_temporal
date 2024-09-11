@@ -40,6 +40,15 @@ router.post('/create-question', upload.array('images'), (req, res) => {
     console.log('Correct Option:', correctOption)
     console.log('Uploaded Files:', imageFiles)
 
+    questionsDummyData.push({
+      code: questionsDummyData[questionsDummyData.length - 1].code + 1,
+      examType,
+      question,
+      options,
+      correctOption,
+      images: imageFiles.map((file) => file.filename)
+    })
+
     // Responder al cliente con éxito
     res.status(200).json({ message: 'Pregunta creada exitosamente' })
   } catch (error) {

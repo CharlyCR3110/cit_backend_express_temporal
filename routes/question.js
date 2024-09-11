@@ -69,6 +69,27 @@ router.get('/get-all', (req, res) => {
   res.json(responseData)
 })
 
+router.get('/get-by-code/:code', (req, res) => {
+  const code = req.params.code
+  console.log('GET /get-by-code - Código recibido:', code)
+
+  if (code === undefined) {
+    res.status(400).json({ error: 'No se recibió el código' })
+    console.error('No se recibió el código')
+    return
+  }
+
+  const foundQuestion = questionsDummyData.find((question) => question.code === code)
+
+  if (foundQuestion === undefined) {
+    res.status(404).json({ error: 'No se encontró la pregunta' })
+    console.error('No se encontró la pregunta con el código:', code)
+    return
+  }
+
+  res.json(foundQuestion)
+})
+
 /* endpoint to retrieve the images */
 router.get('/get-all-images', async (req, res) => {
   try {
